@@ -1,0 +1,22 @@
+name: skynet
+description: >-
+  SkyNet — Global Aviation Logistics & Management System. A browser-based Dart
+  application demonstrating abstract data types, concrete data structures and
+  classic algorithms applied to flight operations, passenger handling and
+  logistics.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ^3.5.0
+
+# The core library (lib/src/structures, algorithms, models, services) has ZERO
+# third-party dependencies — it is pure, portable Dart. Only the presentation
+# layer (web/, lib/src/ui) depends on package:web. This separation keeps the
+# data-structure code trivially unit-testable and implementation independent.
+dependencies:
+  web: ^1.1.0
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.25.0

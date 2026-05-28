@@ -1,0 +1,18 @@
+# Dart / pub
+.dart_tool/
+.packages
+build/
+pubspec.lock
+
+# Compiled web output (regenerate with `dart compile js`)
+web/main.dart.js
+web/main.dart.js.deps
+web/main.dart.js.map
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log
