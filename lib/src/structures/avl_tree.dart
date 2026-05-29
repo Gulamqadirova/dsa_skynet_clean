@@ -1,44 +1,17 @@
-/// [K] tipidagi kalit va [V] tipidagi qiymatni tartiblaydigan o'z-o'zini
-/// muvozanatlagan **AVL Daraxti**.
-///
-/// Oddiy Ikkilik Qidiruv Daraxti saralangan kiritishda ro'yxatga aylanadi
-/// (`O(n)`) — bu aviatsiya narxlari oqimidagi kirish namunasi. AVL invarianti
-/// har bir pastki daraxt bolalari balandligini 1 ichida saqlaydi, bu
-/// `insert`, `search` va `rangeQuery` da `O(log n)` ni kafolatlaydi.
-///
-/// Bir xil kalitga bir nechta qiymat ega bo'lishi mumkin (masalan, bir xil
-/// narxdagi bir nechta reys), shuning uchun har bir tugun qiymatlar *chelagi* saqlaydi.
-///
-/// | Operatsiya    | Murakkablik    |
-/// |---------------|----------------|
-/// | `insert`      | `O(log n)`     |
-/// | `search`      | `O(log n)`     |
-/// | `rangeQuery`  | `O(log n + k)` |
-/// | `inOrder`     | `O(n)`         |
 class AvlTree<K, V> {
   final int Function(K a, K b) _compare;
   _Node<K, V>? _root;
   int _size = 0;
 
-  /// [compare] tartibida daraxt yaratadi.
   AvlTree(int Function(K a, K b) compare) : _compare = compare;
-
-  /// Saqlangan qiymatlar umumiy soni (alohida kalitlar emas). `O(1)`.
   int get length => _size;
-
-  /// Daraxt qiymatlar mavjud emasligini tekshiradi. `O(1)`.
   bool get isEmpty => _size == 0;
-
-  /// Daraxt balandligi; bo'sh daraxt balandligi 0. `O(1)`.
   int get height => _height(_root);
-
-  /// [key] ostiga [value] kiritadi, qaytib kelayotganda muvozanatlaydi. `O(log n)`.
   void insert(K key, V value) {
     _root = _insert(_root, key, value);
     _size++;
   }
 
-  /// [key] ostida saqlangan barcha qiymatlarni qaytaradi, yoki bo'sh ro'yxat. `O(log n)`.
   List<V> search(K key) {
     var node = _root;
     while (node != null) {
@@ -49,33 +22,26 @@ class AvlTree<K, V> {
     return const [];
   }
 
-  /// Kaliti `[low, high]` oralig'ida bo'lgan barcha qiymatlarni o'suvchi tartibda qaytaradi.
-  /// Faqat tegishli pastki daraxt ko'riladi: `k` mos uchun narxi `O(log n + k)`.
   List<V> rangeQuery(K low, K high) {
     final out = <V>[];
     _range(_root, low, high, out);
     return out;
   }
-
-  /// `(key, value)` juftliklari o'suvchi tartibda. `O(n)`.
   List<({K key, V value})> inOrder() {
     final out = <({K key, V value})>[];
     _inOrder(_root, out);
     return out;
   }
-
-  /// Daraxt tarkibini tozalaydi. `O(1)`.
   void clear() {
     _root = null;
     _size = 0;
   }
-
   _Node<K, V> _insert(_Node<K, V>? node, K key, V value) {
     if (node == null) return _Node<K, V>(key, value);
     final cmp = _compare(key, node.key);
     if (cmp == 0) {
       node.values.add(value);
-      return node; // tarkibiy o'zgarish yo'q.
+      return node;
     } else if (cmp < 0) {
       node.left = _insert(node.left, key, value);
     } else {
@@ -103,7 +69,6 @@ class AvlTree<K, V> {
     _inOrder(node.right, out);
   }
 
-  // ---- Muvozanatlash primitivlari ------------------------------------------
 
   int _height(_Node<K, V>? node) => node?.height ?? 0;
 
@@ -120,15 +85,15 @@ class AvlTree<K, V> {
     final balance = _balanceFactor(node);
     if (balance > 1) {
       if (_balanceFactor(node.left!) < 0) {
-        node.left = _rotateLeft(node.left!); // Chap-O'ng holat
+        node.left = _rotateLeft(node.left!);
       }
-      return _rotateRight(node); // Chap-Chap holat
+      return _rotateRight(node);
     }
     if (balance < -1) {
       if (_balanceFactor(node.right!) > 0) {
-        node.right = _rotateRight(node.right!); // O'ng-Chap holat
+        node.right = _rotateRight(node.right!);
       }
-      return _rotateLeft(node); // O'ng-O'ng holat
+      return _rotateLeft(node);
     }
     return node;
   }

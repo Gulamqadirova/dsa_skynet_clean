@@ -2,8 +2,7 @@ import '../models/airport.dart';
 import '../models/flight.dart';
 import '../models/passenger.dart';
 
-/// Har bir faza birinchi yuklanishda namoyish etilishi uchun ilovani
-/// urug'laydigan global tarmoqning mustaqil namunasi.
+
 class SampleData {
   const SampleData._();
 
@@ -18,7 +17,6 @@ class SampleData {
     Airport(code: 'TAS', city: 'Toshkent', country: 'O\'zbekiston'),
   ];
 
-  /// Yo'nalishli reyslar `(kimdan, kimga, narx $, masofa km, vaqt min)`.
   static const List<(String, String, double, double, int)> flights = [
     ('JFK', 'LHR', 450, 5570, 420),
     ('LHR', 'JFK', 470, 5570, 440),

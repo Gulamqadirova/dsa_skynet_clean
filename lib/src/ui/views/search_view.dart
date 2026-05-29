@@ -4,7 +4,6 @@ import '../dom.dart';
 import '../phase_view.dart';
 import '../widgets.dart';
 
-/// Phase 3 — High-Speed Search & Data Retrieval (AVL tree + hash table).
 class SearchView extends PhaseView {
   SearchView(super.system);
 

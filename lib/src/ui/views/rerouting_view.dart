@@ -5,7 +5,6 @@ import '../dom.dart';
 import '../phase_view.dart';
 import '../widgets.dart';
 
-/// Phase 5 — Contingency Planning (recursive backtracking).
 class ReroutingView extends PhaseView {
   ReroutingView(super.system);
 

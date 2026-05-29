@@ -1,6 +1,4 @@
-/// Uchish tarmog'idagi tugun.
 class Airport {
-  /// IATA kodi, masalan `JFK` — grafda ishlatiladigan noyob identifikator.
   final String code;
   final String city;
   final String country;

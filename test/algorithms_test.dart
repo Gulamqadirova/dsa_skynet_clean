@@ -13,14 +13,14 @@ void main() {
   group('Dijkstra', () {
     test('finds the cheapest (not fewest-hop) route', () {
       final path = dijkstra(_sampleGraph(), 'A', 'C');
-      expect(path.path, ['A', 'B', 'C']); // cost 3 beats direct cost 10.
+      expect(path.path, ['A', 'B', 'C']);
       expect(path.totalWeight, 3);
     });
 
     test('optimises by the chosen metric', () {
       final byDistance =
           dijkstra(_sampleGraph(), 'A', 'C', metric: RouteMetric.distance);
-      expect(byDistance.path, ['A', 'C']); // direct is shortest by distance.
+      expect(byDistance.path, ['A', 'C']);
     });
 
     test('reports unreachable destinations gracefully', () {
@@ -116,15 +116,13 @@ void main() {
     test('finds alternative simple paths, sorted best-first', () {
       final routes = findAlternativeRoutes(_sampleGraph(), 'A', 'C');
       expect(routes, isNotEmpty);
-      expect(routes.first.totalWeight, 3); // A-B-C is cheapest.
-      // Paths are simple: no airport repeats.
+      expect(routes.first.totalWeight, 3);
       for (final r in routes) {
         expect(r.path.toSet().length, r.path.length);
       }
     });
 
     test('avoids closed hubs', () {
-      // Closing B forces the direct A-C edge.
       final routes =
           findAlternativeRoutes(_sampleGraph(), 'A', 'C', blocked: {'B'});
       expect(routes, isNotEmpty);
@@ -134,7 +132,6 @@ void main() {
     });
 
     test('returns nothing when all paths are severed', () {
-      // Closing C disconnects D from everything upstream of it.
       final routes =
           findAlternativeRoutes(_sampleGraph(), 'A', 'D', blocked: {'C'});
       expect(routes, isEmpty);
@@ -156,7 +153,6 @@ void main() {
       expect(system.network.airportCount, greaterThan(0));
       expect(system.search.profileCount, greaterThan(0));
       expect(system.checkIn.waiting, greaterThan(0));
-      // The pre-seeded check-in queue serves the highest tier first.
       expect(system.checkIn.peekNext().tier, TicketTier.platinum);
     });
   });

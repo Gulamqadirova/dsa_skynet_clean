@@ -1,12 +1,3 @@
-/// SkyNet — Global Aviatsiya Logistikasi va Boshqaruv Tizimi.
-///
-/// Ommaviy API yuzasi: domen modellari, faza xizmatlari va
-/// [SkyNetSystem] fasadi. Konkret ma'lumotlar tuzilmalari va algoritmlar
-/// `lib/src/` ostida joylashgan va birlik testlash uchun ataylab
-/// erishish mumkin, ilovaning o'zi esa faqat bu yerda eksport qilingan
-/// xizmatlarni iste'mol qiladi.
-library;
-
 export 'src/algorithms/dijkstra.dart' show ShortestPath, dijkstra;
 export 'src/algorithms/minimum_spanning_tree.dart'
     show SpanningTree, kruskalMst, primMst;

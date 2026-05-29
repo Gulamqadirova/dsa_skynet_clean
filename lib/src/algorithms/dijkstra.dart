@@ -1,15 +1,11 @@
 import '../structures/graph.dart';
 import '../structures/priority_queue.dart';
 
-/// Bitta manbadan qisqa yo'l qidiruvining natijasi.
-class ShortestPath {
-  /// Manbadan manzilgacha (ham kirgan) tartibli tepalar ro'yxati.
-  final List<String> path;
 
-  /// [path] bo'ylab to'plangan umumiy og'irlik.
+class ShortestPath {
+  final List<String> path;
   final double totalWeight;
 
-  /// Tartib bo'yicha bosib o'tilgan qirralar.
   final List<Edge> edges;
 
   const ShortestPath({
@@ -17,20 +13,6 @@ class ShortestPath {
     required this.totalWeight,
     required this.edges,
   });
-
-  /// Manbadan manzilgacha yo'l mavjudligini tekshiradi.
-  bool get isReachable => path.isNotEmpty;
-}
-
-/// **Dijkstra algoritmi** — ikki shahar orasidagi eng arzon yo'l.
-///
-/// Ikkilik-heap [PriorityQueue] bilan murakkablik `O((V + E) log V)`,
-/// massiv skaniga nisbatan `O(V²)` o'rniga. Dijkstra manfiy bo'lmagan
-/// qirra og'irliklarini talab qiladi (narx, masofa va vaqt ≥ 0).
-///
-/// [ShortestPath] qaytaradi; erishib bo'lmaydigan [target] istisno tashlash
-/// o'rniga bo'sh yo'l va cheksiz og'irlik qaytaradi, shuning uchun chaqiruvchilar
-/// "yo'l yo'q" ni ko'rsatishi mumkin.
 ShortestPath dijkstra(
   Graph graph,
   String source,
@@ -51,17 +33,14 @@ ShortestPath dijkstra(
   final settled = <String>{};
   dist[source] = 0;
 
-  // Eng *kichik* taxminiy masofaga tartiblanadigan chegara, shuning uchun
-  // maks-heap uchun teskari. Har bir yozuv navbatga qo'shilgan masofani
-  // saqlaydi (eski yozuvlarni aniqlash uchun "dangasa o'chirish").
   final frontier = PriorityQueue<({String vertex, double dist})>(
     (a, b) => b.dist.compareTo(a.dist),
   )..insert((vertex: source, dist: 0));
 
   while (frontier.isNotEmpty) {
     final current = frontier.removeMax();
-    if (!settled.add(current.vertex)) continue; // allaqachon yakunlangan.
-    if (current.vertex == target) break; // manzil joylashganda erta chiqish.
+    if (!settled.add(current.vertex)) continue;
+    if (current.vertex == target) break;
 
     for (final edge in graph.neighbours(current.vertex)) {
       if (settled.contains(edge.to)) continue;

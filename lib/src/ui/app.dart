@@ -11,8 +11,6 @@ import 'views/overview_view.dart';
 import 'views/rerouting_view.dart';
 import 'views/search_view.dart';
 
-/// The single-page application shell: a fixed sidebar of phase navigation and a
-/// content area that re-renders the selected [PhaseView] on demand.
 class SkyNetApp {
   SkyNetApp(SkyNetSystem system)
       : _views = [
@@ -84,8 +82,6 @@ class SkyNetApp {
   void _select(String id) {
     _activeId = id;
     final view = _views.firstWhere((v) => v.id == id);
-
-    // Reflect the active state in the nav.
     _navItems.forEach((viewId, item) {
       item.className = viewId == id ? 'nav-item nav-active' : 'nav-item';
     });

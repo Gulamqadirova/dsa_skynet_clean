@@ -6,7 +6,7 @@ import '../dom.dart';
 import '../phase_view.dart';
 import '../widgets.dart';
 
-/// Phase 2 — Passenger Priority & Check-in (heaps, queues, stacks).
+
 class OperationsView extends PhaseView {
   OperationsView(super.system);
 

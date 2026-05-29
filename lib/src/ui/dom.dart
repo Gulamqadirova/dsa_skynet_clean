@@ -2,13 +2,6 @@ import 'dart:js_interop';
 
 import 'package:web/web.dart' as web;
 
-/// A tiny, typed DOM-construction helper layered over `package:web`.
-///
-/// Keeping all the interop in one place lets the view code stay declarative and
-/// free of `as` casts and `.toJS` plumbing.
-
-/// Creates an element of [tag] with the given properties and appended
-/// [children].
 web.HTMLElement el(
   String tag, {
   String? classes,
@@ -62,7 +55,6 @@ web.HTMLElement button(
       onClick: (_) => onPressed(),
     );
 
-/// A labelled text input. Read its current value with [inputValue].
 web.HTMLInputElement textInput({
   String? placeholder,
   String value = '',
@@ -81,7 +73,6 @@ web.HTMLInputElement textInput({
   return input;
 }
 
-/// Current value of a text/select input.
 String inputValue(web.HTMLElement input) {
   if (input.isA<web.HTMLInputElement>()) {
     return (input as web.HTMLInputElement).value;
@@ -92,7 +83,6 @@ String inputValue(web.HTMLElement input) {
   return '';
 }
 
-/// A `<select>` populated from [options] of `(value, label)` pairs.
 web.HTMLSelectElement dropdown(
   List<(String value, String label)> options, {
   String? selected,
@@ -108,7 +98,6 @@ web.HTMLSelectElement dropdown(
   return select;
 }
 
-/// Builds a `<table>` from [headers] and [rows].
 web.HTMLElement table(List<String> headers, List<List<web.Node>> rows) {
   final thead = el(
     'thead',
@@ -128,11 +117,9 @@ web.HTMLElement table(List<String> headers, List<List<web.Node>> rows) {
   return el('table', classes: 'data-table', children: [thead, tbody]);
 }
 
-/// A coloured pill/badge.
 web.HTMLElement badge(String text, {String tone = 'neutral'}) =>
     span(classes: 'badge badge-$tone', text: text);
 
-/// Replaces all children of [parent] with [children].
 void replaceChildren(web.HTMLElement parent, List<web.Node> children) {
   while (parent.firstChild != null) {
     parent.removeChild(parent.firstChild!);
@@ -142,7 +129,6 @@ void replaceChildren(web.HTMLElement parent, List<web.Node> children) {
   }
 }
 
-/// A simple `label + control` field row.
 web.HTMLElement field(String label, web.HTMLElement control) => div(
       classes: 'field',
       children: [el('label', text: label), control],

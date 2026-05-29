@@ -6,7 +6,6 @@ import '../dom.dart';
 import '../phase_view.dart';
 import '../widgets.dart';
 
-/// Phase 1 — Global Navigation & Infrastructure (graphs, Dijkstra, MST).
 class NetworkView extends PhaseView {
   NetworkView(super.system);
 

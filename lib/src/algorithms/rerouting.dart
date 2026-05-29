@@ -1,14 +1,8 @@
 import '../structures/graph.dart';
 
-/// Orqaga qaytish qidiruvida topilgan bir muqobil yo'l.
 class AlternativeRoute {
-  /// Tartib bo'yicha ko'rilgan aeroportlar, manba birinchi.
   final List<String> path;
-
-  /// Tartib bo'yicha bosib o'tilgan qirralar.
   final List<Edge> edges;
-
-  /// Tanlangan metrika bo'yicha umumiy og'irlik.
   final double totalWeight;
 
   const AlternativeRoute({
@@ -20,17 +14,6 @@ class AlternativeRoute {
   int get hops => edges.length;
 }
 
-/// Favqulodda rejalashtirish uchun **rekursiv orqaga qaytish** yo'l kashfiyotchisi.
-///
-/// Hub yopilganda, bu [blocked] aeroprotlardan qochib [source] dan [target] gacha
-/// har bir *oddiy* yo'lni (takrorlanmagan aeroport) sanab chiqadi, so'ngra ularni
-/// umumiy og'irlik bo'yicha tartiblab qaytaradi.
-///
-/// Qidiruv daraxti eng yomon holatda eksponentsial (`O(V!)`-ish),
-/// bu "barcha yo'llarni o'rganish" uchun tug'ma. Ikki amaliy chegara uni
-/// real tarmoqlarda boshqariladigan qiladi:
-///   * [maxHops] makul oyoqlar sonidan uzunroq yo'llarni kesib tashlaydi;
-///   * [maxRoutes] yetarli muqobillar topilgach to'xtatadi.
 List<AlternativeRoute> findAlternativeRoutes(
   Graph graph,
   String source,
@@ -44,7 +27,7 @@ List<AlternativeRoute> findAlternativeRoutes(
     return const [];
   }
   if (blocked.contains(source) || blocked.contains(target)) {
-    return const []; // uchlari o'zi ishlatib bo'lmaydi.
+    return const [];
   }
 
   final results = <AlternativeRoute>[];
@@ -53,7 +36,7 @@ List<AlternativeRoute> findAlternativeRoutes(
   final edgeStack = <Edge>[];
 
   void backtrack(String current, double weightSoFar) {
-    if (results.length >= maxRoutes) return; // yetarli muqobillar topildi.
+    if (results.length >= maxRoutes) return;
     if (current == target) {
       results.add(
         AlternativeRoute(
@@ -64,20 +47,14 @@ List<AlternativeRoute> findAlternativeRoutes(
       );
       return;
     }
-    if (edgeStack.length >= maxHops) return; // chuqurlik chegarasi.
-
+    if (edgeStack.length >= maxHops) return;
     for (final edge in graph.neighbours(current)) {
       final next = edge.to;
       if (blocked.contains(next) || visited.contains(next)) continue;
-
-      // tanlash
       visited.add(next);
       pathStack.add(next);
       edgeStack.add(edge);
-
       backtrack(next, weightSoFar + metric.weightOf(edge));
-
-      // qaytarish (orqaga qaytishning asosiy qadami)
       visited.remove(next);
       pathStack.removeLast();
       edgeStack.removeLast();

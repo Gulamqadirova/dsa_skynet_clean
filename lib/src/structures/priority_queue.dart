@@ -1,45 +1,20 @@
-/// Ikkilik **Maks-Heap** asosidagi Ustuvorlik Navbati.
-///
-/// Eng yuqori ustuvorlikdagi element — kiritilgan [compare] funksiyasi
-/// tomonidan belgilangan — har doim birinchi qaytariladi.
-/// `compare(a, b)` musbat son qaytarsa "a ning ustuvorligi b dan yuqori" degani.
-///
-/// ## Nima uchun heap?
-/// Saralangan ro'yxat `O(1)` peek beradi, lekin `O(n)` kiritish;
-/// saralanmagan ro'yxat `O(1)` kiritish, lekin `O(n)` chiqarish.
-/// Ikkilik heap ikkalasini `O(log n)` da muvozanatlaydi.
-///
-/// | Operatsiya  | Murakkablik |
-/// |-------------|-------------|
-/// | `peek`      | `O(1)`      |
-/// | `insert`    | `O(log n)`  |
-/// | `removeMax` | `O(log n)`  |
 class PriorityQueue<T> {
   final int Function(T a, T b) _compare;
   final List<_Entry<T>> _heap = [];
   int _sequence = 0;
 
-  /// [compare] bilan tartiblanadigan maks-heap yaratadi.
   PriorityQueue(int Function(T a, T b) compare) : _compare = compare;
 
-  /// Navbatdagi elementlar soni. `O(1)`.
   int get length => _heap.length;
-
-  /// Navbat bo'shligini tekshiradi. `O(1)`.
   bool get isEmpty => _heap.isEmpty;
-
-  /// Navbatda kamida bitta element borligini tekshiradi. `O(1)`.
   bool get isNotEmpty => _heap.isNotEmpty;
 
-  /// [value] ni kiritadi va to'g'ri joyga ko'taradi. `O(log n)`.
   void insert(T value) {
     _heap.add(_Entry<T>(value, _sequence++));
     _siftUp(_heap.length - 1);
   }
 
-  /// Olib tashlamasdan eng yuqori ustuvorlikdagi elementni qaytaradi. `O(1)`.
-  ///
-  /// Navbat bo'sh bo'lsa [StateError] chiqaradi.
+
   T peek() {
     if (_heap.isEmpty) {
       throw StateError('peek() bo\'sh ustuvorlik navbatida chaqirildi');
@@ -47,9 +22,7 @@ class PriorityQueue<T> {
     return _heap.first.value;
   }
 
-  /// Eng yuqori ustuvorlikdagi elementni olib tashlaydi va qaytaradi. `O(log n)`.
-  ///
-  /// Navbat bo'sh bo'lsa [StateError] chiqaradi.
+
   T removeMax() {
     if (_heap.isEmpty) {
       throw StateError('removeMax() bo\'sh ustuvorlik navbatida chaqirildi');
@@ -63,22 +36,20 @@ class PriorityQueue<T> {
     return top;
   }
 
-  /// Ko'rsatish uchun ustuvorlik tartibidagi snapshot (eng yuquri birinchi). `O(n log n)`.
   List<T> toOrderedList() {
     final copy = List<_Entry<T>>.of(_heap)..sort(_entryCompare);
     return copy.map((e) => e.value).toList(growable: false);
   }
 
-  /// Barcha elementlarni olib tashlaydi. `O(1)`.
   void clear() {
     _heap.clear();
     _sequence = 0;
   }
 
   int _entryCompare(_Entry<T> a, _Entry<T> b) {
-    final byPriority = _compare(b.value, a.value); // kamayish tartibida
+    final byPriority = _compare(b.value, a.value);
     if (byPriority != 0) return byPriority;
-    return a.sequence.compareTo(b.sequence); // tenglashda avvalroq kelgan birinchi
+    return a.sequence.compareTo(b.sequence);
   }
 
   bool _higher(int i, int j) => _entryCompare(_heap[i], _heap[j]) < 0;

@@ -4,9 +4,6 @@ import '../dom.dart';
 import '../phase_view.dart';
 import '../widgets.dart';
 
-/// In-app evaluation reference: formal ADT specs, Big-O table, encapsulation
-/// rationale and the edge cases covered by the automated test suite. Mirrors
-/// the written deliverables so the running application is self-documenting.
 class EvaluationView extends PhaseView {
   EvaluationView(super.system);
 

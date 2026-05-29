@@ -4,7 +4,6 @@ import '../dom.dart';
 import '../phase_view.dart';
 import '../widgets.dart';
 
-/// Landing screen: system status and a map of the five phases.
 class OverviewView extends PhaseView {
   OverviewView(super.system);
 

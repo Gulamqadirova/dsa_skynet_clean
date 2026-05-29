@@ -5,7 +5,6 @@ import '../dom.dart';
 import '../phase_view.dart';
 import '../widgets.dart';
 
-/// Faza 4 — Ma'lumotlar Analitikasi va Qatorni Qayta Ishlash (saralash + KMP).
 class AnalyticsView extends PhaseView {
   AnalyticsView(super.system);
 
@@ -26,7 +25,6 @@ class AnalyticsView extends PhaseView {
         children: [_sortComparison(), _manifestSearch()],
       );
 
-  // ---- QuickSort va MergeSort -----------------------------------------------
 
   web.HTMLElement _sortComparison() {
     final key = dropdown(
@@ -104,7 +102,6 @@ class AnalyticsView extends PhaseView {
     );
   }
 
-  // ---- KMP manifest qidirish ------------------------------------------------
 
   web.HTMLElement _manifestSearch() {
     final query = textInput(placeholder: 'masalan: Watson', value: 'Watson');

@@ -1,16 +1,9 @@
 import '../structures/graph.dart';
 import '../structures/priority_queue.dart';
 
-/// Minimal Yoyuvchi Daraxt (zaxira tarmoq) qurishning natijasi.
 class SpanningTree {
-  /// Daraxt uchun tanlangan qirralar.
   final List<Edge> edges;
-
-  /// Tanlangan qirralar og'irliklarining yig'indisi.
   final double totalWeight;
-
-  /// Har bir aeroport ulanganda `true` (bitta yoyuvchi daraxt).
-  /// Graf uzluksiz bo'lsa `false` — bu holda yoyuvchi *o'rmon*.
   final bool isConnected;
 
   const SpanningTree({
@@ -20,10 +13,6 @@ class SpanningTree {
   });
 }
 
-/// Yo'l siqish va darajasi bo'yicha birlashtirishli ittifoq-topish / ajratilgan to'plam o'rmoni.
-///
-/// Ikkala operatsiya ham `O(α(n))` amortizatsiyalangan vaqtda ishlaydi,
-/// bu erda `α` teskari Ackermann funksiyasi — har qanday real kiritish uchun ≤ 4.
 class _DisjointSet {
   final Map<String, String> _parent = {};
   final Map<String, int> _rank = {};
@@ -38,7 +27,6 @@ class _DisjointSet {
     while (_parent[root] != root) {
       root = _parent[root]!;
     }
-    // Yo'l siqish: yo'ldagi har bir tuganni ildizga yo'naltiradi.
     var node = x;
     while (_parent[node] != root) {
       final next = _parent[node]!;
@@ -48,7 +36,7 @@ class _DisjointSet {
     return root;
   }
 
-  /// Ikkita to'plam alohida bo'lsa va endi birlashtirilgan bo'lsa `true` qaytaradi.
+
   bool union(String a, String b) {
     final ra = find(a);
     final rb = find(b);
@@ -67,11 +55,6 @@ class _DisjointSet {
   }
 }
 
-/// **Kruskal algoritmi** — barcha aeroprotlarni bog'laydigan eng arzon tarmoq.
-/// Tsikl hosil qilmaydigan eng yengil qirrani ochko'zlarcha qo'shadi.
-///
-/// Murakkablik `O(E log E)`, qirralarni saralash ustun; ittifoq-topish
-/// tsikl tekshiruvi amalda doimiy. Siyrak graflar uchun ideal.
 SpanningTree kruskalMst(Graph graph, {RouteMetric metric = RouteMetric.cost}) {
   final dsu = _DisjointSet();
   for (final v in graph.vertices) {
@@ -87,7 +70,7 @@ SpanningTree kruskalMst(Graph graph, {RouteMetric metric = RouteMetric.cost}) {
     if (dsu.union(edge.from, edge.to)) {
       chosen.add(edge);
       total += metric.weightOf(edge);
-      if (chosen.length == graph.order - 1) break; // daraxt to'liq.
+      if (chosen.length == graph.order - 1) break;
     }
   }
 
@@ -98,10 +81,6 @@ SpanningTree kruskalMst(Graph graph, {RouteMetric metric = RouteMetric.cost}) {
   );
 }
 
-/// **Prim algoritmi** — boshlang'ich tepadan tashqariga bitta daraxtni o'stiradi,
-/// har doim chegara kesib o'tadigan eng arzon qirrani qabul qiladi (heap bilan dangasa variant).
-/// Murakkablik `O(E log V)`. Kruskal bilan yonma-yon taqqoslash uchun qaytariladi;
-/// ulangan grafda ikkalasi teng umumiy og'irlik beradi.
 SpanningTree primMst(Graph graph, {RouteMetric metric = RouteMetric.cost}) {
   if (graph.isEmpty) {
     return const SpanningTree(edges: [], totalWeight: 0, isConnected: true);
@@ -111,7 +90,7 @@ SpanningTree primMst(Graph graph, {RouteMetric metric = RouteMetric.cost}) {
   final chosen = <Edge>[];
   var total = 0.0;
   final frontier = PriorityQueue<Edge>(
-    (a, b) => metric.weightOf(b).compareTo(metric.weightOf(a)), // og'irlik bo'yicha min
+    (a, b) => metric.weightOf(b).compareTo(metric.weightOf(a)),
   );
 
   final start = graph.vertices.first;
@@ -121,8 +100,8 @@ SpanningTree primMst(Graph graph, {RouteMetric metric = RouteMetric.cost}) {
   }
 
   while (frontier.isNotEmpty && inTree.length < graph.order) {
-    final edge = frontier.removeMax(); // eng yengil kesuvchi qirra.
-    if (inTree.contains(edge.to)) continue; // eski: ikkalasi ham allaqachon ichida.
+    final edge = frontier.removeMax();
+    if (inTree.contains(edge.to)) continue;
     inTree.add(edge.to);
     chosen.add(edge);
     total += metric.weightOf(edge);

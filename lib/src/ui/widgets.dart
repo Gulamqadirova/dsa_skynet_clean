@@ -2,9 +2,6 @@ import 'package:web/web.dart' as web;
 
 import 'dom.dart';
 
-/// Higher-level, app-specific building blocks composed from [dom] primitives.
-
-/// A titled content card.
 web.HTMLElement card(
   String title, {
   String? hint,
@@ -26,7 +23,6 @@ web.HTMLElement card(
       ],
     );
 
-/// A compact metric tile (big value over a caption).
 web.HTMLElement statTile(String value, String caption,
         {String tone = 'neutral'}) =>
     div(
@@ -37,11 +33,9 @@ web.HTMLElement statTile(String value, String caption,
       ],
     );
 
-/// A responsive grid wrapper.
 web.HTMLElement grid(List<web.Node> children, {String classes = 'grid'}) =>
     div(classes: classes, children: children);
 
-/// A horizontal row of airport "chips" joined by arrows, used to render a path.
 web.HTMLElement routeChips(List<String> stops) {
   final children = <web.Node>[];
   for (var i = 0; i < stops.length; i++) {
@@ -53,10 +47,7 @@ web.HTMLElement routeChips(List<String> stops) {
   return div(classes: 'route', children: children);
 }
 
-/// An inline notice (info / success / warning / error).
 web.HTMLElement notice(String text, {String tone = 'info'}) =>
     div(classes: 'notice notice-$tone', text: text);
-
-/// A bordered "code" block for showing complexity notes or formal specs.
 web.HTMLElement codeBlock(String text) =>
     el('pre', classes: 'code', children: [el('code', text: text)]);

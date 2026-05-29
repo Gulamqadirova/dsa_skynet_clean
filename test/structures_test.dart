@@ -66,7 +66,6 @@ void main() {
     });
 
     test('priority collisions break ties by insertion order (stable)', () {
-      // All equal priority -> must come out FIFO.
       final pq = PriorityQueue<(int, String)>((a, b) => a.$1.compareTo(b.$1));
       pq
         ..insert((5, 'first'))
@@ -89,7 +88,6 @@ void main() {
       for (var i = 1; i <= 1000; i++) {
         tree.insert(i, i);
       }
-      // A degenerate BST would have height 1000; AVL must be ~log2(1000) ≈ 10.
       expect(tree.height, lessThanOrEqualTo(14));
       expect(tree.length, 1000);
     });
